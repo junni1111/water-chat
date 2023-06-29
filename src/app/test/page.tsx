@@ -16,7 +16,7 @@ export default async function Home() {
             key={user.id}
             style={{ border: '1px solid #ccc', textAlign: 'center' }}
           >
-            <h3>{user.name}</h3>
+            <h3>{user.fid}</h3>
             <h3>{user.email}</h3>
           </div>
         ))}
