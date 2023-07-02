@@ -1,14 +1,17 @@
 'use client';
 
-import * as style from './page.style';
+import { ChangeEvent, useState } from 'react';
+import HomeTemplate from './components/template/home';
 
-export default function Home() {
+const Home = () => {
+  const [chatInput, setChatInput] = useState('');
+  const handleChatInput = (e: ChangeEvent<HTMLInputElement>) => {
+    setChatInput(e.target.value);
+  };
+
   return (
-    <div>
-      <style.Notification>
-        <style.Body>연준이형 바보</style.Body>
-        <style.Progress />
-      </style.Notification>
-    </div>
+    <HomeTemplate chatInput={chatInput} onHandleChangeInput={handleChatInput} />
   );
-}
+};
+
+export default Home;

@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -25,24 +21,18 @@
     ],
     "baseUrl": "./src/app",
     "paths": {
-      "~/*": [
-        "./*"
-      ],
-      "@/styling/*": [
-        "./styling/*"
-      ],
-      "@/lib/*": [
-        "../../lib/*"
-      ]
+      "~/*": ["./*"],
+      "@/apis/*": ["./apis/*"],
+      "@/types/*": ["./types/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/styling/*": ["./styling/*"],
+      "@/services/*": ["./services/*"],
+      "@/constants/*": ["./constants/*"],
+      "@/components/*": ["./components/*"],
+      "@/react-query/*": ["./react-query/*"],
+      "@/lib/*": ["../../lib/*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

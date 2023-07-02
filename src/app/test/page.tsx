@@ -11,7 +11,7 @@ export default async function Home() {
           gap: 20,
         }}
       >
-        {users.map((user) => (
+        {users.map((user: any) => (
           <div
             key={user.id}
             style={{ border: '1px solid #ccc', textAlign: 'center' }}
