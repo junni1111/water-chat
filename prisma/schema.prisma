@@ -12,22 +12,90 @@ datasource db {
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
 
-model Post {
-  id        String  @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  String?
-}
-
 model User {
-  id        String   @id @default(cuid())
-  name      String?
-  email     String?  @unique
+  id    Int    @id @default(autoincrement())
+  fid   String @unique // firebase uid
+  email String
+  role  Role   @default(USER)
+
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
-  posts     Post[]
+  isDeleted Boolean  @default(false) @map(name: "is_deleted")
+
+  profile     Profile?
+  Participant Participant[]
+  Message     Message[]
 
   @@map(name: "users")
+}
+
+model Profile {
+  id       Int    @id @default(autoincrement())
+  nickname String
+  age      Int
+
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int  @unique
+
+  @@map("profiles")
+}
+
+model ChatRoom {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  isDeleted Boolean  @default(false) @map(name: "is_deleted")
+
+  Participant Participant[]
+  Message     Message[]
+
+  @@map("chatrooms")
+}
+
+model Participant {
+  id     Int            @id @default(autoincrement())
+  status ChattingStatus @default(USER)
+
+  room   ChatRoom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId Int
+  user   User     @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@unique([roomId, userId], name: "participantInfo")
+  @@map("participants")
+}
+
+model Message {
+  id      Int         @id @default(autoincrement())
+  type    ContentType @default(TEXT)
+  content String
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  isDeleted Boolean  @default(false) @map(name: "is_deleted")
+
+  room   ChatRoom @relation(fields: [roomId], references: [id])
+  roomId Int
+  user   User     @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@map("messages")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum ContentType {
+  TEXT
+  FILE
+}
+
+enum ChattingStatus {
+  ADMIN
+  USER
+  MUTE
 }
